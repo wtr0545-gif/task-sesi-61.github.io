@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TASK SEASON 6</title>
+    <style>
+        *,
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: white;
+            color: black;
+        }
+
+        .dark-theme {
+            background-color: black;
+            color: white;
+        }
+        .blue-theme {
+            background-color: blue;
+            color: white;
+        }
+        .green-theme {
+            background-color: green;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            background-color: black;
+            width: 100%;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        nav a:hover {
+            background-color: burlywood;
+            cursor: pointer;
+            transition: background-color .5s ease-in-out;
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 10%;
+            font-size: 16px;
+            font-weight: 700;
+            animation: jedakJedug .5s infinite;
+        }
+
+        @keyframes jedakJedug {
+            0% {
+                font-size: 16px;
+            }
+
+            50% {
+                font-size: 18px;
+            }
+
+            100% {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <a onclick="reRender()" id="home">HOME</a>
+            <a onclick="darkMode()" id="dark">DARK MODE</a>
+            <a onclick="blueMode()" id="blue">BLUE MODE</a>
+            <a onclick="greenMode()" id="green">GREEN MODE</a>
+        </nav>
+        <h1>TASK SEASON 6</h1>
+        <p class="info" id="info"></p>
+    </div>
+    <script>
+        let body = document.body;
+        let info = document.getElementById("info");
+        let dark = document.getElementById("dark");
+        let blue = document.getElementById("blue");
+        let green = document.getElementById("green");
+        let home = document.getElementById("home");
+
+        const limit = 10;
+        let counters = {
+            dark: 0,
+            blue: 0,
+            green:0
+        }
+
+        function ubahMode(namaMode, namaKelas) {
+            if (counters[namaMode] >= limit) {
+                info.textContent = `FITUR ${namaMode.toUpperCase()} JATAH MODE ANDA SUDAH HABIS!`;
+                return false;
+            }
+            counters[namaMode] += 1;
+            let sisaKlik = limit - counters[namaMode];
+            document.body.className = namaKelas;
+            if (sisaKlik === 0) {
+                info.textContent = `FITUR ${namaMode.toUpperCase()} JATAH MODE ANDA SUDAH HABIS!`;
+            }else {
+                info.textContent = `${namaMode.toUpperCase()} MODE aktif sisa kuota klik mode ini: ${sisaKlik}`;
+            }
+            return true;
+        }
+        function darkMode() {
+            if(document.body.className === "dark-theme") {
+                let sukses = ubahMode('dark', '');
+                if (sukses) {
+                    dark.textContent = "DARK MODE";
+                    let sisaKlik = limit - counters['dark'];
+                    info.textContent = `kembali ke LIGHT MODE. Sisa kuota klik mode dark/light: ${sisaKlik}`;
+                    if (sisaKlik === 0) info.textContent = `FITUR DARK MODE SUDAH HABIS!`;
+                }
+            }else {
+                let sukses = ubahMode('dark', 'dark-theme');
+                if(sukses) {
+                    dark.textContent = "LIGHT MODE";
+                    blue.textContent = "BLUE MODE";
+                    green.textContent = "GREEN MODE";
+                }
+            }
+        }
+        function blueMode() {
+            if(document.body.className === "blue-theme") {
+                let sukses = ubahMode('blue', '');
+                if (sukses) {
+                    dark.textContent = "BLUE MODE";
+                    let sisaKlik = limit - counters['blue'];
+                    info.textContent = `kembali ke LIGHT MODE. Sisa kuota klik mode blue/light: ${sisaKlik}`;
+                    if (sisaKlik === 0) info.textContent = `FITUR BLUE MODE SUDAH HABIS!`;
+                }
+            }else {
+                let sukses = ubahMode('blue', 'blue-theme');
+                if(sukses) {
+                    blue.textContent = "LIGHT MODE";
+                    dark.textContent = "DARK MODE";
+                    green.textContent = "GREEN MODE";
+                }
+            }
+        }
+        function greenMode() {
+            if(document.body.className === "green-theme") {
+                let sukses = ubahMode('green', '');
+                if (sukses) {
+                    dark.textContent = "GREEN MODE";
+                    let sisaKlik = limit - counters['green'];
+                    info.textContent = `kembali ke LIGHT MODE. Sisa kuota klik mode green/light: ${sisaKlik}`;
+                    if (sisaKlik === 0) info.textContent = `FITUR GREEN MODE SUDAH HABIS!`;
+                }
+            }else {
+                let sukses = ubahMode('green', 'green-theme');
+                if(sukses) {
+                    green.textContent = "LIGHT MODE";
+                    dark.textContent = "DARK MODE";
+                    blue.textContent = "BLUE MODE";
+                    
+                }
+            }
+        }
+        function reRender() {
+            counters.dark = 0;
+            counters.blue = 0;
+            counters.green = 0;
+            document.body.className = "";
+            dark.textContent = "DARK MODE";
+            blue.textContent = "BLUE MODE";
+            green.textContent = "GREEN MODE";
+            location.reload();
+        }
+    </script>
+</body>
+</html>
